@@ -6,9 +6,14 @@
 -- 3) Run validation queries below
 
 -- Basic checks
-SELECT COUNT(*) AS stg_row_count FROM retail.stg_transactions;
 
+-- Row count validation
+SELECT COUNT(*) AS stg_row_count
+FROM retail.stg_transactions;
+
+-- Data quality checks
 SELECT
-  COUNT(*) FILTER (WHERE customer_id IS NULL) AS null_customer_id,
-  COUNT(*) FILTER (WHERE quantity < 0) AS negative_qty
+  COUNT(*) FILTER (WHERE customer_id IS NULL) AS null_customer_ids,
+  COUNT(*) FILTER (WHERE quantity < 0) AS negative_quantities,
+  COUNT(*) FILTER (WHERE invoice_no LIKE 'C%') AS cancellation_invoices
 FROM retail.stg_transactions;
